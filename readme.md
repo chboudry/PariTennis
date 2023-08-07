@@ -1,4 +1,4 @@
-# Paris Tennis
+# Pari Tennis
 
 Machine learning on Tennis Bets !
 
