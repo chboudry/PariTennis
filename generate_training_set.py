@@ -4,7 +4,7 @@ from past_features import *
 #from elo_features import *
 from categorical_features import *
 from strategy_assessment import *
-#from utilities import *
+from utilities import *
 
 
 ################################################################################
@@ -32,10 +32,10 @@ features_recent  = features_past_generation(features_recent_creation,150,"recent
 #dump(duo_features,"duo_features")
 #dump(general_features,"general_features")
 #dump(recent_features,"recent_features")
-features_player=load("player_features")
-features_duo=load("duo_features")
-features_general=load("general_features")
-features_recent=load("recent_features")
+#features_player=load("player_features")
+#features_duo=load("duo_features")
+#features_general=load("general_features")
+#features_recent=load("recent_features")
 
 ########################### Selection of our period ############################
 
@@ -81,6 +81,6 @@ features = pd.concat([features_odds,
                   features_player,
                   features_duo,
                   features_general,
-                  features_recent],1)
+                  features_recent],axis=1)
 
 features.to_csv("./Data/atp_data_features.csv",index=False)

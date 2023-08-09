@@ -8,6 +8,10 @@ Machine learning on Tennis Bets !
 - activate your environment : .\env\Scripts\activate
 - active your virtual environment : py -m pip install -r requirements.txt
 
+#### Refresh data
+
+- in the env terminal, execute : python ./generate_atp_data.py
+
 ### Source
 
 https://github.com/edouardthom/ATPBetting
