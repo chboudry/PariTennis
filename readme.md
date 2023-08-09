@@ -7,3 +7,7 @@ Machine learning on Tennis Bets !
 - on visual studio code you might have to elevate your prompt : Set-ExecutionPolicy Unrestricted -Scope Process
 - activate your environment : .\env\Scripts\activate
 - active your virtual environment : py -m pip install -r requirements.txt
+
+### Source
+
+https://github.com/edouardthom/ATPBetting

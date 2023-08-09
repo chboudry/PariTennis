@@ -5,3 +5,5 @@ seaborn
 glob2
 xlrd
 openpyxl
+scikit-learn
+xgboost
