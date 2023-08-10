@@ -12,6 +12,11 @@ Machine learning on Tennis Bets !
 
 - in the env terminal, execute : python ./generate_atp_data.py
 
+
+### Generate 
+
+- To generate atp_data_features.csv, in the env terminal, execute : python .\generate_training_set.py
+
 ### Source
 
 https://github.com/edouardthom/ATPBetting
