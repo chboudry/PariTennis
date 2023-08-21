@@ -23,4 +23,8 @@ def shuffle_training_dataset(data_in, data_out):
             data.at[data.index[index],player2_col] = temp
         data.at[data.index[index],"winner_player1"] = 0
 
+        temp = data.at[data.index[index],"match_odd_player1"]
+        data.at[data.index[index],"match_odd_player1"] = data.at[data.index[index],"match_odd_player2"]
+        data.at[data.index[index],"match_odd_player2"] = temp
+
     data.to_csv(data_out,index=False)
