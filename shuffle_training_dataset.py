@@ -1,6 +1,8 @@
 import pandas as pd
 import random
 
+## funtion to rotate player 1 and player 2 without knowing columns names
+## requires player columns to be called playerX_ to work
 def shuffle_training_dataset(data_in, data_out):
     # loading data in memory
     data=pd.read_csv(data_in)
