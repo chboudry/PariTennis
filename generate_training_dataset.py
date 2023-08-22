@@ -16,13 +16,13 @@ def generate_training_dataset(atp_data_file, player_file, year_start, year_end, 
 
     player1_name=[]
     player1_ATPRank=[]
-    player1_game=[]
+    player1_games=[]
     player1_wins=[]
     player1_loses=[]
 
     player2_name=[]
     player2_ATPRank=[]
-    player2_game=[]
+    player2_games=[]
     player2_wins=[]
     player2_loses=[]
 
@@ -42,16 +42,28 @@ def generate_training_dataset(atp_data_file, player_file, year_start, year_end, 
         if player1.size!=0:
             player1_name.append(player1.iloc[0]["name"])
             player1_ATPRank.append(player1.iloc[0]["ATPRank"])
+            player1_games.append(player1.iloc[0]["games"])
+            player1_wins.append(player1.iloc[0]["wins"])
+            player1_loses.append(player1.iloc[0]["loses"])
         else:
             player1_name.append(row.Winner)
             player1_ATPRank.append(math.nan)
+            player1_games.append(math.nan)
+            player1_wins.append(math.nan)
+            player1_loses.append(math.nan)
 
         if player2.size!=0:
             player2_name.append(player2.iloc[0]["name"])
             player2_ATPRank.append(player2.iloc[0]["ATPRank"])
+            player2_games.append(player2.iloc[0]["games"])
+            player2_wins.append(player2.iloc[0]["wins"])
+            player2_loses.append(player2.iloc[0]["loses"])
         else:
             player2_name.append(row.Loser)
             player2_ATPRank.append(math.nan)
+            player2_games.append(math.nan)
+            player2_wins.append(math.nan)
+            player2_loses.append(math.nan)
 
         match_date.append(row.Date)
         match_surface.append(row.Surface)
@@ -64,8 +76,16 @@ def generate_training_dataset(atp_data_file, player_file, year_start, year_end, 
     d = {
         'player1_name': player1_name, 
         'player1_atprank':player1_ATPRank,
+        'player1_games':player1_games,
+        'player1_wins':player1_wins,
+        'player1_loses':player1_loses,
+
         'player2_name' : player2_name,
         'player2_atprank':player2_ATPRank,
+        'player2_games':player2_games,
+        'player2_wins':player2_wins,
+        'player2_loses':player2_loses,
+
         'match_date': match_date,
         'match_location':match_location,
         'match_tournament':match_tournament,
