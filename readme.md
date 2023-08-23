@@ -21,6 +21,26 @@ Machine learning on Tennis Bets !
 - in the env terminal, execute : python .\generate_dataset_file.py
 - this will generate training_dataset.csv file
 
+### Todo
+
+Get players : 
+- age
+- performance per tournament (habits to go in finals)
+- progression over last X month / last X tournaments
+- timeplay regularity
+- ace
+- overall performance over higher ranking
+- overall performance over below ranking
+- did this tournament already (yes :1 : no : 0)
+- lefty / righty (lol)
+
+- intéger la fréquence moyenne de blessures annuelles dans le roi (le ROI peut il absorber cette perte ?)
+
+check atp file website freshness during live tournament : seems tournament is upload only at the end.
+
+Get next tournaments:
+- create a predict function that only use a date parameter to get the next match on the internet
+
 ## Source
 
 https://github.com/edouardthom/ATPBetting
