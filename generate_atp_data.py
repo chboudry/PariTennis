@@ -32,38 +32,38 @@ def compute_elo_rankings(data):
     ranking_elo["proba_elo"]=1 / (1 + 10 ** ((ranking_elo["elo_loser"] - ranking_elo["elo_winner"]) / 400))   
     return ranking_elo
 
+def generate_atp_data(output):
+    filenames=list(glob2.glob("./data/20*.xls*"))
+    l = [pd.read_excel(filename) for filename in filenames] #,encoding='latin-1'
+    no_b365=[i for i,d in enumerate(l) if "B365W" not in l[i].columns]
+    no_pi=[i for i,d in enumerate(l) if "PSW" not in l[i].columns]
+    for i in no_pi:
+        l[i]["PSW"]=np.nan
+        l[i]["PSL"]=np.nan
+    for i in no_b365:
+        l[i]["B365W"]=np.nan
+        l[i]["B365L"]=np.nan
+    l=[d[list(d.columns)[:13]+["Wsets","Lsets","Comment"]+["PSW","PSL","B365W","B365L"]] for d in [l[0]]+l[2:]]
+    data=pd.concat(l,axis=0)
+    #print(l)
 
-filenames=list(glob2.glob("./data/20*.xls*"))
-l = [pd.read_excel(filename) for filename in filenames] #,encoding='latin-1'
-no_b365=[i for i,d in enumerate(l) if "B365W" not in l[i].columns]
-no_pi=[i for i,d in enumerate(l) if "PSW" not in l[i].columns]
-for i in no_pi:
-    l[i]["PSW"]=np.nan
-    l[i]["PSL"]=np.nan
-for i in no_b365:
-    l[i]["B365W"]=np.nan
-    l[i]["B365L"]=np.nan
-l=[d[list(d.columns)[:13]+["Wsets","Lsets","Comment"]+["PSW","PSL","B365W","B365L"]] for d in [l[0]]+l[2:]]
-data=pd.concat(l,axis=0)
-#print(l)
+    ### Data cleaning
+    data=data.sort_values("Date")
+    data["WRank"]=data["WRank"].replace(np.nan,0)
+    data["WRank"]=data["WRank"].replace("NR",2000)
+    data["LRank"]=data["LRank"].replace(np.nan,0)
+    data["LRank"]=data["LRank"].replace("NR",2000)
+    data["WRank"]=data["WRank"].astype(int)
+    data["LRank"]=data["LRank"].astype(int)
+    data["Wsets"]=data["Wsets"].astype(float)
+    data["Lsets"]=data["Lsets"].replace("`1",1)
+    data["Lsets"]=data["Lsets"].astype(float)
+    data=data.reset_index(drop=True)
 
-### Data cleaning
-data=data.sort_values("Date")
-data["WRank"]=data["WRank"].replace(np.nan,0)
-data["WRank"]=data["WRank"].replace("NR",2000)
-data["LRank"]=data["LRank"].replace(np.nan,0)
-data["LRank"]=data["LRank"].replace("NR",2000)
-data["WRank"]=data["WRank"].astype(int)
-data["LRank"]=data["LRank"].astype(int)
-data["Wsets"]=data["Wsets"].astype(float)
-data["Lsets"]=data["Lsets"].replace("`1",1)
-data["Lsets"]=data["Lsets"].astype(float)
-data=data.reset_index(drop=True)
+    ### Elo rankings data
+    # Computing of the elo ranking of each player at the beginning of each match.
+    elo_rankings = compute_elo_rankings(data)
+    data = pd.concat([data,elo_rankings],axis=1)
 
-### Elo rankings data
-# Computing of the elo ranking of each player at the beginning of each match.
-elo_rankings = compute_elo_rankings(data)
-data = pd.concat([data,elo_rankings],axis=1)
-
-### Storage of the raw dataset
-data.to_csv("./Data/atp_data.csv",index=False)
+    ### Storage of the raw dataset
+    data.to_csv(output,index=False)

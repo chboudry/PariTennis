@@ -52,11 +52,11 @@ def generate_training_dataset(atp_data_file, player_file, year_start, year_end, 
             player1_ATPRank.append(player1.iloc[0]["ATPRank"])
             player1_games.append(player1.iloc[0]["games"])
             player1_wins.append(player1.iloc[0]["wins"])
-            player1_loses.append(player1.iloc[0]["loses"])
-            player1_indoors_wins.append(player1.iloc[0]["indoors_win"])
-            player1_indoors_loses.append(player1.iloc[0]["indoors_loss"])
-            player1_outdoors_wins.append(player1.iloc[0]["outdoors_win"])
-            player1_outdoors_loses.append(player1.iloc[0]["outdoors_loss"])
+            player1_loses.append(player1.iloc[0]["losses"])
+            player1_indoors_wins.append(player1.iloc[0]["indoor_wins"])
+            player1_indoors_loses.append(player1.iloc[0]["indoor_losses"])
+            player1_outdoors_wins.append(player1.iloc[0]["outdoor_wins"])
+            player1_outdoors_loses.append(player1.iloc[0]["outdoor_losses"])
         else:
             player1_name.append(row.Winner)
             player1_ATPRank.append(math.nan)
@@ -73,11 +73,11 @@ def generate_training_dataset(atp_data_file, player_file, year_start, year_end, 
             player2_ATPRank.append(player2.iloc[0]["ATPRank"])
             player2_games.append(player2.iloc[0]["games"])
             player2_wins.append(player2.iloc[0]["wins"])
-            player2_loses.append(player2.iloc[0]["loses"])
-            player2_indoors_wins.append(player2.iloc[0]["indoors_win"])
-            player2_indoors_loses.append(player2.iloc[0]["indoors_loss"])
-            player2_outdoors_wins.append(player2.iloc[0]["outdoors_win"])
-            player2_outdoors_loses.append(player2.iloc[0]["outdoors_loss"])
+            player2_loses.append(player2.iloc[0]["losses"])
+            player2_indoors_wins.append(player2.iloc[0]["indoor_wins"])
+            player2_indoors_loses.append(player2.iloc[0]["indoor_losses"])
+            player2_outdoors_wins.append(player2.iloc[0]["outdoor_wins"])
+            player2_outdoors_loses.append(player2.iloc[0]["outdoor_losses"])
         else:
             player2_name.append(row.Loser)
             player2_ATPRank.append(math.nan)
@@ -103,29 +103,31 @@ def generate_training_dataset(atp_data_file, player_file, year_start, year_end, 
         'player1_atprank':player1_ATPRank,
         'player1_games':player1_games,
         'player1_wins':player1_wins,
-        'player1_loses':player1_loses,
-        'player1_indoors_wins':player1_indoors_wins,
-        'player1_indoors_loses':player1_indoors_loses,
-        'player1_outdoors_wins':player1_outdoors_wins,
-        'player1_outdoors_loses':player1_outdoors_loses,
+        'player1_losses':player1_loses,
+        'player1_indoor_wins':player1_indoors_wins,
+        'player1_indoor_losses':player1_indoors_loses,
+        'player1_outdoor_wins':player1_outdoors_wins,
+        'player1_outdoor_losses':player1_outdoors_loses,
 
         'player2_name' : player2_name,
         'player2_atprank':player2_ATPRank,
         'player2_games':player2_games,
         'player2_wins':player2_wins,
-        'player2_loses':player2_loses,
-        'player2_indoors_wins':player2_indoors_wins,
-        'player2_indoors_loses':player2_indoors_loses,
-        'player2_outdoors_wins':player2_outdoors_wins,
-        'player2_outdoors_loses':player2_outdoors_loses,
+        'player2_losses':player2_loses,
+        'player2_indoor_wins':player2_indoors_wins,
+        'player2_indoor_losses':player2_indoors_loses,
+        'player2_outdoor_wins':player2_outdoors_wins,
+        'player2_outdoor_losses':player2_outdoors_loses,
+
+        'tournament_name':match_tournament,
+        'tournament_location':match_location,
+        'tournament_court':match_court,
+        'tournament_surface': match_surface,
 
         'match_date': match_date,
-        'match_location':match_location,
-        'match_tournament':match_tournament,
-        'match_court':match_court,
-        'match_surface': match_surface,
         'match_odd_player1':match_odd_player1,
         'match_odd_player2':match_odd_player2,
+
         'winner_player1' : winner_player1}
 
     training_matches = pd.DataFrame(data=d)

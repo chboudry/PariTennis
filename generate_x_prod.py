@@ -1,6 +1,7 @@
 import time 
 import pandas as pd 
 import numpy as np
+from datetime import datetime
 from bs4 import BeautifulSoup as bs
 from selenium import webdriver 
 from selenium.webdriver import Chrome, ChromeOptions
@@ -12,7 +13,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 ## atpurl = https://www.atptour.com/en/scores/current/us-open/560/daily-schedule
 ## date expected format is YYYY-MM-DD
-def generate_y_rows(playersfile, atpurl, date, outputfile): 
+def generate_x_prod(playersfile, tournamentsfile, atpurl, outputfile): 
     #####################
     ### Retrieving ATP data thanks to selenium
     #####################
@@ -26,6 +27,13 @@ def generate_y_rows(playersfile, atpurl, date, outputfile):
     #atpurl = "https://www.atptour.com/en/scores/current/us-open/560/daily-schedule"
     driver.get(atpurl) 
     bs_atp = bs(driver.page_source, "html.parser")
+
+    # Getting match date
+    datefield = bs_atp.find('h3', attrs={'class':"day-table-date"})
+    match_date = datetime.strptime(datefield.text, '%A, %B %d, %Y')
+
+    # Getting tournament name 
+    tournamentname = bs_atp.find('td', attrs={'class':"title-content"}).find('a').get('data-ga-label')
 
     # Getting players list from page source code
     table = bs_atp.find('div', attrs={'class':"sectioned-day-tables"}).find_all('td',attrs={'class':'day-table-name'})
@@ -50,7 +58,10 @@ def generate_y_rows(playersfile, atpurl, date, outputfile):
     #####################
     ### Building y row
     #####################
-    players = pd.read_csv("./data/players.csv")
+    players = pd.read_csv(playersfile)
+    tournaments = pd.read_csv(tournamentsfile)
+
+    p3 = tournaments.loc[tournaments.name == tournamentname].values.tolist()[0]
 
     ## setting up a dataframe with expected column
     col_datas=[]
@@ -59,6 +70,13 @@ def generate_y_rows(playersfile, atpurl, date, outputfile):
 
     for col in players.columns:
         col_datas.append("player2_"+ col)  
+
+    for col in tournaments.columns:
+        col_datas.append("tournament_"+ col) 
+
+    col_datas.append('match_date')
+    col_datas.append('match_odd_player1')
+    col_datas.append('match_odd_player2')
 
     datas=pd.DataFrame(columns=col_datas)
 
@@ -77,15 +95,7 @@ def generate_y_rows(playersfile, atpurl, date, outputfile):
             dfp2.loc[0,"name"] = pp[1]
             p2 = dfp2.values.tolist()[0] 
 
-        data = p1 + p2
+        data = p1 + p2 + p3 + [match_date.strftime("%Y-%m-%d"),np.nan,np.nan]
         datas.loc[len(datas)] = data
-    return datas
 
-## need to add
-# date
-# tournament info (name, location tournament, series, Court, surface, total round,round number, best of )
-# tournament file needs to be compile in another script
-atpurl = "https://www.atptour.com/en/scores/current/us-open/560/daily-schedule"
-playersfile ="./data/players.csv"
-outputfile ="./data/y_topredict.csv"
-generate_y_rows(playersfile, atpurl, "2023-08-24")
+    datas.to_csv(outputfile,index=False)
