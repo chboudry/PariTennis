@@ -5,7 +5,8 @@ import datetime
 import math
 
 
-from generate_player_global_file import *
+from generate_players_file import *
+from generate_tournaments_file import *
 from generate_training_dataset import *
 from shuffle_training_dataset import *
 
@@ -16,13 +17,18 @@ from shuffle_training_dataset import *
 # generating players base using X to Y data, X, Y included
 # This will be static data whatever the match studied
 # Execute only once each time you change the date parameters
-# generate_player_global_file("./data/atp_data.csv", 2004, 2023, "./data/players.csv")
+#generate_player_global_file("./data/atp_data.csv", 2004, 2023, "./data/players.csv")
+
+# generating tournaments base 
+# This will be static data 
+# This is only used when getting fresh y from the web, because we can't scrap all of the tournament settings
+generate_tournaments_file("./data/atp_data.csv", "./data/tournaments.csv")
 
 ## building of the training dataset
-generate_training_dataset("./data/atp_data.csv", "./data/players.csv", 2021, 2023, "./data/training_dataset.csv")
+#generate_training_dataset("./data/atp_data.csv", "./data/players.csv", 2021, 2023, "./data/training_dataset.csv")
 
 
 ## shuffle
 ## Right now, player 1 is always the winner, we need to shuffle the data a bit to avoid that
 ## Shuffle algorithm is we pick 5 row random out of 10 and make player 2 the winner (= switching player 1 and player 2 info and resetting player_winner1 accordingly)
-shuffle_training_dataset("./data/training_dataset.csv", "./data/training_dataset.csv")
+#shuffle_training_dataset("./data/training_dataset.csv", "./data/training_dataset.csv")

@@ -83,7 +83,8 @@ def generate_y_rows(playersfile, atpurl, date, outputfile):
 
 ## need to add
 # date
-# tournament info (name, location tournament, series, Court, surface, round if possible, best of )
+# tournament info (name, location tournament, series, Court, surface, total round,round number, best of )
+# tournament file needs to be compile in another script
 atpurl = "https://www.atptour.com/en/scores/current/us-open/560/daily-schedule"
 playersfile ="./data/players.csv"
 outputfile ="./data/y_topredict.csv"
