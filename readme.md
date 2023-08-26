@@ -43,4 +43,5 @@ Get next tournaments:
 
 ## Source
 
-https://github.com/edouardthom/ATPBetting
+Code in V1 was initally a fork from : https://github.com/edouardthom/ATPBetting
+Code in V2 is using scrapping code from : https://github.com/serve-and-volley/atp-world-tour-tennis-data 

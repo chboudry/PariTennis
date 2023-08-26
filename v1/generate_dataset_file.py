@@ -17,7 +17,8 @@ from shuffle_training_dataset import *
 # concat rows and save result in provided file path
 # does not modify any raw data
 # do create the elo columns, which may be removed
-#generate_atp_data("./data/atp_data.csv")
+generate_atp_data("./data/atp_data.csv")
+
 
 # generating players base using X to Y data, X, Y included
 # this will be static data whatever the match studied
@@ -28,12 +29,12 @@ generate_player_global_file("./data/atp_data.csv", 2004, 2023, "./data/players.c
 # this will be static data 
 # execute only once each time you update the atp_data.csv
 # this is only used when getting fresh y from the web, because we can't scrap all of the tournament settings
-#generate_tournaments_file("./data/atp_data.csv", "./data/tournaments.csv")
+generate_tournaments_file("./data/atp_data.csv", "./data/tournaments.csv")
 
 
 # building of the training dataset
 # provide start year and end year included
-generate_training_dataset("./data/atp_data.csv", "./data/players.csv", 2021, 2023, "./data/training_dataset.csv")
+generate_training_dataset("./data/atp_data.csv", "./data/players.csv", 2019, 2023, "./data/training_dataset.csv")
 
 
 # shuffle

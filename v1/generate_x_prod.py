@@ -56,7 +56,7 @@ def generate_x_prod(playersfile, tournamentsfile, atpurl, outputfile):
         matchplayers.append([playersedited[i], playersedited[i+1]])
 
     #####################
-    ### Building y row
+    ### Building x row
     #####################
     players = pd.read_csv(playersfile)
     tournaments = pd.read_csv(tournamentsfile)
