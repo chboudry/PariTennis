@@ -1,5 +1,6 @@
 from tournaments import *
 from match_scores import *
+from match_stats_copy import *
 
 # # # # # # # # # # #
 #                   #
@@ -8,7 +9,10 @@ from match_scores import *
 # # # # # # # # # # #
 
 # generate tournaments file
-#generate_tournaments(2022, 2023, "./data/tournaments.csv")
+#generate_tournaments(2000, 2023, "./data/tournaments.csv")
 
-# generate matchs file
-generate_matchs(2023, 2023, "./data/matchs.csv")
+# generate matchs scores files
+#generate_matchs(2023, 2023, "./data/matchs.csv")
+
+# generate matchs stats files
+generate_match_stats()

@@ -4,7 +4,11 @@ from match_stats_players_data_extended import match_data_extended
 from match_stats_players_data import match_data
 from scraping import add2csv
 
-import chromedriver_autoinstaller
+from selenium import webdriver 
+from selenium.webdriver import Chrome, ChromeOptions
+from selenium.webdriver.chrome.service import Service 
+from selenium.webdriver.common.by import By 
+from webdriver_manager.chrome import ChromeDriverManager
 from selenium import webdriver
 
 # User selects year
@@ -26,8 +30,13 @@ print('')
 match_index = int(match_selected) - 1
 
 url_prefix = 'https://www.atptour.com'
-chromedriver_autoinstaller.install()
-driver = webdriver.Chrome()
+options = ChromeOptions()
+options.add_argument("--headless=new")
+options.add_experimental_option('excludeSwitches', ['enable-logging'])
+options.page_load_strategy = 'normal' 
+chrome_path = "./bin/chromedriver.exe" #ChromeDriverManager()#.install() 
+chrome_service = Service(chrome_path) 
+driver = Chrome(options=options, service=chrome_service) 
 
 for i in range (match_index, match_count):
     tourney_slug = tourney_matches_array[i][1]
@@ -41,6 +50,8 @@ for i in range (match_index, match_count):
     csv_filename = str(tourney_year) + '-' + str(tourney_selected) + '-' + tourney_slug + '-' + str(match_selected) + '.csv'
     extended_csv_filename = str(tourney_year) + '-' + str(tourney_selected) + '-' + tourney_slug + '-' + str(match_selected) + '-extended.csv'
 
+    print(match_stats_url)
+    driver.implicitly_wait(3)
     driver.get(match_stats_url)
     html = driver.page_source
     if html.find('Net points won') > 0:

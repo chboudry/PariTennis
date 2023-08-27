@@ -50,11 +50,15 @@ def fraction_stats(string):
     return string.split('/')
 
 def add2csv(array, filename):
-    with open(filename, 'a',newline='') as csv_file:
+    with open(filename, 'a',newline='',encoding="utf8") as csv_file:
         writer = csv.writer(csv_file)
         writer.writerow(array)
 
 def array2csv(array, filename):
-    with open(filename, "w+",newline='') as my_csv:
+    with open(filename, "w+",newline='',encoding="utf8") as my_csv:
         csvWriter = csv.writer(my_csv, delimiter = ',')
         csvWriter.writerows(array)
+
+def html2csv(html, filename):
+    with open(filename, "a",encoding="utf8") as my_file:
+        my_file.write(html)
