@@ -1,10 +1,14 @@
 from bs4 import BeautifulSoup
+from scraping import *
 
 def match_data(html, winner_id, loser_id):
     
     soup = BeautifulSoup(html, 'html.parser')
     # Match duration
-    match_time = soup.find('td', 'time').text.strip()
+    try:
+        match_time = soup.find('td', 'time').text.strip()
+    except:
+        html2csv(html,"./data/scrapping" + str(winner_id) + ".txt")
     match_duration = 60 * int(match_time.split(':')[0]) + int(match_time.split(':')[1])
 
     # Player id's and slugs
@@ -153,6 +157,5 @@ def match_data(html, winner_id, loser_id):
         loser_data = [loser_player_id, loser_serve_rating, loser_aces, loser_double_faults, loser_first_serves_in, loser_first_serves_total, loser_first_serve_points_won, loser_first_serve_points_total, loser_second_serve_points_won, loser_second_serve_points_total, loser_break_points_saved, loser_break_points_serve_total, loser_service_games_played, loser_return_rating, loser_first_serve_return_won, loser_first_serve_return_total, loser_second_serve_return_won, loser_second_serve_return_total, loser_break_points_converted, loser_break_points_return_total, loser_return_games_played, loser_service_points_won, loser_service_points_total, loser_return_points_won, loser_return_points_total, loser_total_points_won, loser_total_points_total]
 
         scraped_data = match_data + winner_data + loser_data
-        print(scraped_data)
 
         return scraped_data

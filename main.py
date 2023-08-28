@@ -8,11 +8,9 @@ from match_stats import *
 #                   #
 # # # # # # # # # # #
 
-# generate tournaments file
+# generate ATP files
+# Warning : this takes extensive time, up to 24h for match stats files from 2000 to 2023
 #generate_tournaments(2000, 2023, "./data/tournaments.csv")
-
-# generate matchs scores files
 #generate_matchs(2000, 2023, "./data/matchs.csv")
-
-# generate matchs stats files
 generate_match_stats("./data/matchs.csv","./data/matchs-stats.csv", "./data/matchs-stats-advanced.csv")
+#generate_players_overview("./data/matchs.csv", "./data/players.csv")
