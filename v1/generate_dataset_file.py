@@ -1,4 +1,4 @@
-from generate_atp_data import *
+from scrap_couk_data import *
 from generate_players_file import *
 from generate_tournaments_file import *
 from generate_training_dataset import *

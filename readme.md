@@ -10,22 +10,23 @@ Machine learning on Tennis Bets !
 - activate your environment : .\env\Scripts\activate
 - active your virtual environment : py -m pip install -r requirements.txt
 
-### Refresh data
+### Scrapping data
 
-- download xls files from http://tennis-data.co.uk/alldata.php in the data directory
-- in the env terminal, execute : python ./generate_atp_data.py
-- this will generate the atp_data.csv file
+- This is optional and not recommended (very long) as all datas are already scrapped and in folder
+- Data is coming from multiples sources :
+  - https://www.atptour.com for tournaments, matchs, matchs stats and players
+  - http://tennis-data.co.uk/alldata.php for matchs odds and players ranking in time
 
-### Generate a new training dataset 
+### Formatting data 
 
-- in the env terminal, execute : python .\generate_dataset_file.py
-- this will generate training_dataset.csv file
+What generate_training_dataset does :
+1. Merge scrapped atp match data + scrapped atp players data + scrapped tennis-data.co.uk alltogeter per match
+2. winner player is rename as player 1, loser player is rename as player 2
+3. 50% of the data are randomly schuffled (inverting player 1 and player 2) so that winner may be 1 or 2
 
 ### Todo
 
 scrapping :
-- fix a2018 function for empty url
-- generate players
 - get odds
 
 Get players : 
