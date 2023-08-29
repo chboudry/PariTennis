@@ -2,11 +2,12 @@ import pandas as pd
 import numpy as np
 from datetime import datetime
 
-def generate_dataset(atptournamentfile, atpmatchfile, atpmatchstatsfile,coukfile,outputfile):
+def generate_dataset(atptournamentfile, atpmatchfile, atpmatchstatsfile,playersfile,coukfile,outputfile):
     matchs = pd.read_csv(atpmatchfile)
     matchs_stats = pd.read_csv(atpmatchstatsfile)
     couk = pd.read_csv(coukfile)
     tournaments = pd.read_csv(atptournamentfile)
+    players = pd.read_csv(playersfile)
 
     # Sometimes atp matchs scrapped do not have accurate tournament date, 
     # So we merge match en tournaments to take tournaments col we are more confident on
@@ -26,11 +27,13 @@ def generate_dataset(atptournamentfile, atpmatchfile, atpmatchstatsfile,coukfile
 
     atpmatchs = pd.merge(matchs, tournaments, how="left", left_on ="tourney_year_id", right_on = "tourney_year_id")
 
-    key=[]
-    for index, row in atpmatchs.iterrows():
-        key.append(str(datetime.strptime(row.tourney_date,'%Y.%m.%d').year) + str(datetime.strptime(row.tourney_date,'%Y.%m.%d').month) + row.winner_name.split(" ")[1] +  row.loser_name.split(" ")[1])
-    atpmatchs["key"]=key
+    atpmatchs1player = pd.merge(atpmatchs, players, how="left", left_on ="winner_player_id", right_on = "player_id",  suffixes=('', '_winner'))
+    atpmatchs2player = pd.merge(atpmatchs1player, players, how="left", left_on ="loser_player_id", right_on = "player_id", suffixes=('_winner', '_loser'))
 
+    key=[]
+    for index, row in atpmatchs2player.iterrows():
+        key.append(str(datetime.strptime(row.tourney_date,'%Y.%m.%d').year) + str(datetime.strptime(row.tourney_date,'%Y.%m.%d').month) + row.last_name_winner.split(" ")[0] +  row.last_name_loser.split(" ")[0])
+    atpmatchs2player["key"]=key
 
     key=[]
     couk = couk[["Date","Winner","Loser","WRank","LRank","B365W","B365L","PSW","PSL"]]
@@ -38,7 +41,7 @@ def generate_dataset(atptournamentfile, atpmatchfile, atpmatchstatsfile,coukfile
         key.append(str(datetime.strptime(row.Date,'%Y-%m-%d').year) + str(datetime.strptime(row.Date,'%Y-%m-%d').month) + row.Winner.split(" ")[0] +  row.Loser.split(" ")[0])
     couk["key"]=key
 
-    atpmatchs_odds = pd.merge(atpmatchs, couk, how="left", left_on ="key", right_on = "key")
+    atpmatchs_odds = pd.merge(atpmatchs2player, couk, how="left", left_on ="key", right_on = "key")
 
 
     matchs_stats = matchs_stats[["match_id", "match_time","match_duration",
