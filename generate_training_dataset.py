@@ -1,6 +1,6 @@
 import pandas as pd 
 import numpy as np
-from datetime import datetime
+from datetime import datetime, timedelta
 from shuffle_training_dataset import *
 
 df = pd.read_csv("./data_formatted/dataset.csv")
@@ -39,8 +39,8 @@ df = pd.read_csv("./data_formatted/dataset.csv")
 
 # filter
 df = df[["match_id","Date","round_order","match_order",
-         "winner_name","weight_kg_winner","height_cm_winner","birthdate_winner","winner_serve_rating", "WRank","B365W","PSW",
-         "loser_name","weight_kg_loser","height_cm_loser", "birthdate_loser", "loser_serve_rating","LRank","B365L","PSL"]]
+         "winner_name","weight_kg_winner","height_cm_winner","birthdate_winner","turned_pro_winner","winner_serve_rating", "WRank","B365W","PSW",
+         "loser_name","weight_kg_loser","height_cm_loser", "birthdate_loser", "turned_pro_loser","loser_serve_rating","LRank","B365L","PSL"]]
 
 # rename
 df= df.rename(columns={
@@ -53,6 +53,7 @@ df= df.rename(columns={
     "weight_kg_winner":"player1_weight",
     "height_cm_winner":"player1_height",
     "birthdate_winner":"player1_birthdate",
+    "turned_pro_winner":"player1_turned_pro",
     "winner_serve_rating":"player1_serve_rating",
     "WRank":"player1_atprank",
     "B365W":"player1_oddsB365",
@@ -63,6 +64,7 @@ df= df.rename(columns={
     "weight_kg_loser":"player2_weight",
     "height_cm_loser":"player2_height",
     "birthdate_loser":"player2_birthdate",
+    "turned_pro_loser":"player2_turned_pro",
     "loser_serve_rating":"player2_serve_rating", 
     "LRank":"player2_atprank",
     "B365L":"player2_oddsB365",
@@ -88,12 +90,16 @@ player1_wins =[]
 player1_losses =[]
 player1_age=[]
 player1_mean_serve_rating=[]
+player1_mean_atp_adversary=[]
+player1_elo=[]
 
 player2_plays =[]
 player2_wins =[]
 player2_losses =[]
 player2_age=[]
 player2_mean_serve_rating=[]
+player2_mean_atp_adversary=[]
+player2_elo=[]
 
 # generate features derived from the past for each player
 for index,row in df.iterrows():
@@ -110,33 +116,61 @@ for index,row in df.iterrows():
     losses = previous_matchs.loc[pastdf.player2_name == row.player1_name]
     player1_losses.append(len(losses))
     player1_age.append(str((row.match_date - row.player1_birthdate).days/ 365.25))
-    player1_mean_serve_rating.append((wins[["player1_serve_rating"]].mean() + losses[["player2_serve_rating"]].mean())/2)
-    
+    player1_mean_serve_rating.append((wins[["player1_serve_rating"]].mean().values[0] + losses[["player2_serve_rating"]].mean().values[0])/2)
+    player1_mean_atp_adversary.append((wins[["player2_atprank"]].mean().values[0] + losses[["player1_atprank"]].mean().values[0])/2)
+
+    #custom elo 
+    bins = [0, 60, 160, 360, 720, 1440, 100000]
+    tbins = list(map(lambda x : timedelta(int(x)),bins))
+    lppoints = pd.cut((row.match_date - wins.match_date),tbins,labels = [100,50,25,10,5,1])
+    ppoints = sum(list(map(lambda x : x*30  ,lppoints)))
+    lnpoints = pd.cut((row.match_date - losses.match_date),tbins,labels = [100,50,25,10,5,1])
+    npoints = sum(list(map(lambda x : x*30  ,lnpoints)))
+    elo = ppoints - npoints
+    player1_elo.append(elo)
+
     # player2
     previous_matchs = pastdf.loc[(pastdf.player1_name == row.player2_name) | (pastdf.player2_name == row.player2_name)]
     player2_plays.append(len(previous_matchs))
     wins = previous_matchs.loc[pastdf.player1_name == row.player2_name]
     player2_wins.append(len(wins))
-    loss = previous_matchs.loc[pastdf.player2_name == row.player2_name]
-    player2_losses.append(len(loss))
+    losses = previous_matchs.loc[pastdf.player2_name == row.player2_name]
+    player2_losses.append(len(losses))
     player2_age.append(str((row.match_date - row.player2_birthdate).days/ 365.25))
     player2_mean_serve_rating.append((wins[["player1_serve_rating"]].mean().values[0] + losses[["player2_serve_rating"]].mean().values[0])/2)
+    player2_mean_atp_adversary.append((wins[["player2_atprank"]].mean().values[0] + losses[["player1_atprank"]].mean().values[0])/2)
+
+    bins = [0, 60, 160, 360, 720, 1440, 100000]
+    tbins = list(map(lambda x : timedelta(int(x)),bins))
+    lppoints = pd.cut((row.match_date - wins.match_date),tbins,labels = [100,50,25,10,5,1])
+    ppoints = sum(list(map(lambda x : x*30  ,lppoints)))
+    lnpoints = pd.cut((row.match_date - losses.match_date),tbins,labels = [100,50,25,10,5,1])
+    npoints = sum(list(map(lambda x : x*30  ,lnpoints)))
+    elo = ppoints - npoints
+    player2_elo.append(elo)
 
 df["player1_plays"] = player1_plays 
 df["player1_wins"] = player1_wins
 df["player1_losses"] = player1_losses 
 df["player1_age"] = player1_age
 df["player1_mean_serve_rating"] = player1_mean_serve_rating
+df["player1_mean_atp_adversary"] = player1_mean_atp_adversary
+df["player1_elo"] = player1_elo
 
 df["player2_plays"] =player2_plays
 df["player2_wins"] = player2_wins
 df["player2_losses"] = player2_losses
 df["player2_age"] = player2_age
 df["player2_mean_serve_rating"] = player2_mean_serve_rating
+df["player2_mean_atp_adversary"] = player2_mean_atp_adversary
+df["player2_elo"] = player2_elo
 
-# we drop match result columns
+# we drop match result columns (not y)
 df = df.drop(["player1_serve_rating","player2_serve_rating"],axis=1)
 
 df.to_csv("./data_formatted/training_dataset.csv",index=False)
+print(str(end)+"/"+str(end)+" matches treated.")
 
+print("shuffling dataset...")
 shuffle_training_dataset("./data_formatted/training_dataset.csv", "./data_formatted/training_dataset.csv")
+print("Done.")
