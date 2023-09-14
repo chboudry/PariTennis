@@ -1,7 +1,7 @@
 from scrap_couk_data import *
 from generate_players_file import *
 from generate_tournaments_file import *
-from generate_training_dataset import *
+from model_classic.generate_training_dataset import *
 from shuffle_training_dataset import *
 
 ################################################################################

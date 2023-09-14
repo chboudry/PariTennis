@@ -24,3 +24,5 @@ def shuffle_training_dataset(data_in, data_out):
         data.at[data.index[index],"winner_player1"] = 0
         
     data.to_csv(data_out,index=False)
+
+#shuffle_training_dataset("./data_formatted/training_dgl_dataset.csv", "./data_formatted/training_torch_dataset.csv")
