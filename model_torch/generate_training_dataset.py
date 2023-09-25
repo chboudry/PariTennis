@@ -1,7 +1,7 @@
 import pandas as pd 
 import numpy as np
 from datetime import datetime, timedelta
-from "./shuffle_training_dataset" import *
+#from "./shuffle_training_dataset" import *
 
 df = pd.read_csv("./data_formatted/dataset.csv")
 
@@ -39,8 +39,8 @@ df = pd.read_csv("./data_formatted/dataset.csv")
 
 # filter
 df = df[["match_id","Date","round_order","match_order",
-         "winner_name","winner_player_id", "weight_kg_winner","height_cm_winner","birthdate_winner","turned_pro_winner","winner_serve_rating", "WRank","B365W","PSW",
-         "loser_name","loser_player_id", "weight_kg_loser","height_cm_loser", "birthdate_loser", "turned_pro_loser","loser_serve_rating","LRank","B365L","PSL"]]
+         "winner_name","winner_player_id", "weight_kg_winner","height_cm_winner","birthdate_winner","turned_pro_winner","winner_serve_rating","winner_sets_won","winner_games_won", "WRank","B365W","PSW",
+         "loser_name","loser_player_id", "weight_kg_loser","height_cm_loser", "birthdate_loser", "turned_pro_loser","loser_games_won","loser_sets_won","loser_serve_rating","LRank","B365L","PSL"]]
 
 # rename
 df= df.rename(columns={
@@ -51,6 +51,8 @@ df= df.rename(columns={
 
     "winner_name":"player1_name",
     "winner_player_id":"player1_id",
+    "winner_games_won":"player1_games_won",
+    "winner_sets_won":"player1_sets_won",
     "weight_kg_winner":"player1_weight",
     "height_cm_winner":"player1_height",
     "birthdate_winner":"player1_birthdate",
@@ -63,6 +65,8 @@ df= df.rename(columns={
 
     "loser_name":"player2_name",
     "loser_player_id":"player2_id",
+    "loser_games_won": "player2_games_won",
+    "loser_sets_won": "player2_sets_won",
     "weight_kg_loser":"player2_weight",
     "height_cm_loser":"player2_height",
     "birthdate_loser":"player2_birthdate",
@@ -170,11 +174,11 @@ df["player2_elo"] = player2_elo
 # we drop match result columns (not y)
 df = df.drop(["player1_serve_rating","player2_serve_rating"],axis=1)
 
-df.to_csv("./data_formatted/training__dgl_dataset.csv",index=False)
+df.to_csv("./data_formatted/training_torch2_dataset.csv",index=False)
 print(str(end)+"/"+str(end)+" matches treated.")
 
 
-# Turns out we still need to shuffle in graph context :D
-print("shuffling dataset...")
-shuffle_training_dataset("./data_formatted/training_dataset.csv", "./data_formatted/training_dataset.csv")
+
+#print("shuffling dataset...")
+#shuffle_training_dataset("./data_formatted/training_dataset.csv", "./data_formatted/training_dataset.csv")
 print("Done.")
