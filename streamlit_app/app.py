@@ -6,7 +6,8 @@ import streamlit as st
 #   TITLE, TEAM_MEMBERS, PROMOTION values
 #   path to files
 import config
-from tabs import tab1, tab2, tab3, tab4
+#from streamlit_app.tabs import intro
+from tabs import intro, tab2, tab3, tab4, gnn, outro
 
 
 st.set_page_config(
@@ -25,10 +26,12 @@ st.markdown(f"<style>{style}</style>", unsafe_allow_html=True)
 # as value as follow :
 TABS = OrderedDict(
     [
-        (tab1.sidebar_name, tab1),
+        (intro.sidebar_name, intro),
         (tab2.sidebar_name, tab2),
         (tab3.sidebar_name, tab3),
-        (tab4.sidebar_name, tab4)
+        (tab4.sidebar_name, tab4),
+        (gnn.sidebar_name, gnn),
+        (outro.sidebar_name, outro),
     ]
 )
 

@@ -37,4 +37,3 @@ TEAM_MEMBERS = [
 PROMOTION = "Bootcamp Data Scientist - July 2023"
 
 CO_UK_DATA_PATH = '../data_scrapped/co_uk_data.csv'
-TOP10_PATH = '../data/top10.csv'

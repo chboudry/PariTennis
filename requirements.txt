@@ -20,3 +20,4 @@ torch_geometric
 tqdm
 streamlit
 Pillow
+graphviz

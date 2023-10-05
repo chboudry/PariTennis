@@ -118,14 +118,14 @@ def run():
 
 
     data = df_players.nlargest(20,"games").sort_values("ratio_win",ascending=False)
-    figure6 = plt.bar(data.player, data.ratio_win)
+    figure6 = plt.figure(figsize=(14,7))
+    plt.bar(data.player, data.ratio_win)
     plt.title("Ratio victoires par parties pour les joueurs avec le plus grand nombre de match")
     plt.xticks(rotation='vertical')
     st.pyplot(figure6)
 
     # cote associée et rentabilité
     data = df_players.nlargest(20,"games").sort_values("ratio_win",ascending=False)
-
     figure7, ax1 = plt.subplots()
     ax1.bar(data.player, data.ratio_win)
     ax1.set_ylabel('% de parties gagnées')
@@ -135,6 +135,6 @@ def run():
     ax2.set_ylabel('cote moyenne des joueurs')
     ax2.plot(data.player, data.players_odds, color='red')
 
-    fig.tight_layout()  # otherwise the right y-label is slightly clipped
+    figure7.tight_layout()  # otherwise the right y-label is slightly clipped
     plt.title("Ratio victoires par parties pour les joueurs avec le plus grand nombre de match")
     st.pyplot(figure7)

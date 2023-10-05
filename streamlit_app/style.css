@@ -19,6 +19,7 @@ div[data-testid="stDecoration"] {
 
 footer {
   display: none;
+  margin-bottom: 100px;
 }
 
 /* Radio buttons */
@@ -45,7 +46,7 @@ section[data-testid="stSidebar"] button[kind="icon"] {
 }
 
 section[data-testid="stSidebar"] .st-bk {
-  background-color: white;
+  background-color: #10b8dd;
 }
 
 section[data-testid="stSidebar"] .st-c0 {
@@ -81,5 +82,10 @@ hr {
 
 section[tabindex="0"] .block-container {
   padding-top: 0px;
-  padding-bottom: 0px;
+  padding-bottom: 30px;
+}
+
+section .block-container {
+  padding-top: 0px;
+  padding-bottom: 100px;
 }
