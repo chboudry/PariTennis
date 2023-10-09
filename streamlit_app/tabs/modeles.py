@@ -86,7 +86,8 @@ def run():
     X_test_filtered = X_test.drop(col_to_drop,axis=1)
 
     model = GradientBoostingClassifier(n_estimators=100, learning_rate=0.3,max_depth=1, random_state=0)
-    model = model.fit(X_train_filtered, y_train)
+    with st.spinner("Loading..."):    
+        model = model.fit(X_train_filtered, y_train)
 
     y_predict = model.predict(X_test_filtered)
     y_predict_proba = model.predict_proba(X_test_filtered)
@@ -101,6 +102,7 @@ def run():
     df_roi["y_test"] = y_test
 
     df_roi["proba_bookmaker"] = 1/df_roi.player2_oddsB365
+    st.markdown("Visualisation des résultats :")
     st.write(df_roi[["player1_name","player2_name","y_predict", "y_test","y_predict_proba","proba_bookmaker"]])
 
 

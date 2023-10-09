@@ -89,52 +89,53 @@ def run():
     # total play
     # wins
     # loses
-    losers = df['Loser'].unique()
-    winners = df['Winner'].unique()
-    players = np.concatenate([losers,winners])
-    players = np.unique(players)
+    with st.spinner("Loading..."): 
+        losers = df['Loser'].unique()
+        winners = df['Winner'].unique()
+        players = np.concatenate([losers,winners])
+        players = np.unique(players)
 
-    players_total_play = []
-    players_wins = []
-    players_loses = []
-    players_odds = []
+        players_total_play = []
+        players_wins = []
+        players_loses = []
+        players_odds = []
 
-    for player in players : 
-        players_total_play.append(len(df.loc[df['Winner']==player]) + len(df.loc[df['Loser']==player]))
-        players_wins.append(len(df.loc[df['Winner']==player]))
-        players_loses.append(len(df.loc[df['Loser']==player]))
-        players_odds.append((df.loc[df['Winner']==player].B365W.mean() + df.loc[df['Loser']==player].B365L.mean())/2)
-
-
-    d = {'player': players, 
-        'games': players_total_play, 
-        'wins':players_wins, 
-        'loses':players_loses,
-        'players_odds':players_odds}
-    df_players = pd.DataFrame(data=d)
-    df_players["ratio_win"] = df_players["wins"]/df_players["games"]
-    figure5 = df_players.nlargest(20,"ratio_win").plot(kind='bar', y="ratio_win", x='player',title="Ratio victoires par parties").figure
-    st.pyplot(figure5)
+        for player in players : 
+            players_total_play.append(len(df.loc[df['Winner']==player]) + len(df.loc[df['Loser']==player]))
+            players_wins.append(len(df.loc[df['Winner']==player]))
+            players_loses.append(len(df.loc[df['Loser']==player]))
+            players_odds.append((df.loc[df['Winner']==player].B365W.mean() + df.loc[df['Loser']==player].B365L.mean())/2)
 
 
-    data = df_players.nlargest(20,"games").sort_values("ratio_win",ascending=False)
-    figure6 = plt.figure(figsize=(14,7))
-    plt.bar(data.player, data.ratio_win)
-    plt.title("Ratio victoires par parties pour les joueurs avec le plus grand nombre de match")
-    plt.xticks(rotation='vertical')
-    st.pyplot(figure6)
+        d = {'player': players, 
+            'games': players_total_play, 
+            'wins':players_wins, 
+            'loses':players_loses,
+            'players_odds':players_odds}
+        df_players = pd.DataFrame(data=d)
+        df_players["ratio_win"] = df_players["wins"]/df_players["games"]
+        figure5 = df_players.nlargest(20,"ratio_win").plot(kind='bar', y="ratio_win", x='player',title="Ratio victoires par parties").figure
+        st.pyplot(figure5)
 
-    # cote associée et rentabilité
-    data = df_players.nlargest(20,"games").sort_values("ratio_win",ascending=False)
-    figure7, ax1 = plt.subplots()
-    ax1.bar(data.player, data.ratio_win)
-    ax1.set_ylabel('% de parties gagnées')
-    ax1.set_xticklabels(data.player, rotation='vertical')
 
-    ax2 = ax1.twinx() 
-    ax2.set_ylabel('cote moyenne des joueurs')
-    ax2.plot(data.player, data.players_odds, color='red')
+        data = df_players.nlargest(20,"games").sort_values("ratio_win",ascending=False)
+        figure6 = plt.figure(figsize=(14,7))
+        plt.bar(data.player, data.ratio_win)
+        plt.title("Ratio victoires par parties pour les joueurs avec le plus grand nombre de match")
+        plt.xticks(rotation='vertical')
+        st.pyplot(figure6)
 
-    figure7.tight_layout()  # otherwise the right y-label is slightly clipped
-    plt.title("Ratio victoires par parties pour les joueurs avec le plus grand nombre de match")
-    st.pyplot(figure7)
+        # cote associée et rentabilité
+        data = df_players.nlargest(20,"games").sort_values("ratio_win",ascending=False)
+        figure7, ax1 = plt.subplots()
+        ax1.bar(data.player, data.ratio_win)
+        ax1.set_ylabel('% de parties gagnées')
+        ax1.set_xticklabels(data.player, rotation='vertical')
+
+        ax2 = ax1.twinx() 
+        ax2.set_ylabel('cote moyenne des joueurs')
+        ax2.plot(data.player, data.players_odds, color='red')
+
+        figure7.tight_layout()  # otherwise the right y-label is slightly clipped
+        plt.title("Ratio victoires par parties pour les joueurs avec le plus grand nombre de match")
+        st.pyplot(figure7)
