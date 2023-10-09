@@ -137,7 +137,7 @@ def run():
     money_won = round(money_won,2)
     total = round(money_won - money_invested, 2)
     ROI = round(money_won*100/money_invested,2)
-
+ 
     html_str = f"""
     <style>
     p.a {{
