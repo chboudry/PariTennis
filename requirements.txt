@@ -21,3 +21,4 @@ tqdm
 streamlit
 Pillow
 graphviz
+shap

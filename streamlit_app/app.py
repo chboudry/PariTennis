@@ -8,7 +8,7 @@ import streamlit as st
 import config
 
 #from streamlit_app.tabs import intro
-from tabs import intro, analyse, modeles, interpretabilite, gnn, outro
+from tabs import ACP, interpretabilite, intro, analyse, modeles, gnn, outro
 
 
 st.set_page_config(
@@ -30,7 +30,8 @@ TABS = OrderedDict(
         (intro.sidebar_name, intro),
         (analyse.sidebar_name, analyse),
         (modeles.sidebar_name, modeles),
-        (interpretabilite.sidebar_name, interpretabilite),
+        (ACP.sidebar_name, ACP),
+        (interpretabilite.sidebar_name,interpretabilite),
         (gnn.sidebar_name, gnn),
         (outro.sidebar_name, outro),
     ]
