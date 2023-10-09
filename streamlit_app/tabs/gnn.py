@@ -142,9 +142,9 @@ def run():
 
     st.markdown(
         """
-        What next ? : 
+        ### What next ? : 
         - Représentation des données
-         - comment représenter le rank ATP ? 
+          - comment représenter le rank ATP ? 
         - Comment gérer le batching ? 
         - Comment gérer la temporalité ? 
         """

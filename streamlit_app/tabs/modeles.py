@@ -3,8 +3,8 @@ import pandas as pd
 import numpy as np
 
 
-title = "Quelques visualisations"
-sidebar_name = "Quelques visualisations"
+title = "Modèles"
+sidebar_name = "Modèles"
 
 
 def run():

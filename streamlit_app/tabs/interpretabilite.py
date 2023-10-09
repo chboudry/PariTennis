@@ -3,8 +3,8 @@ import pandas as pd
 import numpy as np
 
 
-title = "Tab4"
-sidebar_name = "Tab4"
+title = "Interprétabilité"
+sidebar_name = "Interprétabilité"
 
 
 def run():
