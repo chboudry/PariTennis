@@ -10,6 +10,12 @@ Machine learning on Tennis Bets !
 - activate your environment : .\env\Scripts\activate
 - active your virtual environment : py -m pip install -r requirements.txt
 
+### launch Streamlit
+- on visual studio code you might have to elevate your prompt : Set-ExecutionPolicy Unrestricted -Scope Process
+- activate your environment : .\env\Scripts\activate
+- go in the streamlit folder :  cd .\streamlit_app\ 
+- launch Streamlit : streamlit run app.py
+
 ### Scrapping data
 
 - This is optional and not recommended (very long) as all datas are already scrapped and in folder
