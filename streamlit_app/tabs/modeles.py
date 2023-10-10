@@ -45,6 +45,7 @@ def run():
     st.markdown(
         """
         ### Entrainement du modèle et méta paramètres
+        #### Gradient Boosting
         """
     )
     playsnumber = st.slider('Minimal number of plays by player', 0, 12, 6)

@@ -355,7 +355,7 @@ def run():
                     st.pyplot(fig_atp)
 
 
-        choix = ['Ratio de parties gagnées au nombre de matchs', 'Influence de la surface', 'Influence du court', 'Analyse des victoires par tournoi', 'Différence de rang ATP entre les joueurs']
+        choix = ['Ratio de parties gagnées au nombre de matchs', 'Influence de la surface', 'Analyse des victoires par tournoi', 'Différence de rang ATP entre les joueurs']
         option = st.selectbox("Choix d'axe d'analyse", choix)
 
         with st.spinner("Loading..."):
