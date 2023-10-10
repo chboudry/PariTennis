@@ -29,8 +29,8 @@ TEAM_MEMBERS = [
     ),
     Member(
         name = "Marielle Odile Gahungu",
-        linkedin_url = "https://www.linkedin.com/in/charles-boudry-a6875b3a/",
-        github_url = "https://github.com/chboudry"
+        linkedin_url = "https://www.linkedin.com/in/marielle-odile-gahungu/",
+        github_url = "https://github.com/MarielleOdileG/"
     )        
 ]
 
