@@ -135,7 +135,7 @@ def run():
         "Guillermo Coria" -> "Carlos Moya"
         "Carlos Moya" -> "Tommy Robedro" 
         "Tommy Robedro" -> "Juan Ignacio Chela" 
-        "Guillermo Coria" -> "Juan Ignacio Chela" [ penwidth = 5 fontsize = 28 fontcolor = "black" label = "Jeu gagnés / perdus, Sets gagnés / perdus" ];
+        "Guillermo Coria" -> "Juan Ignacio Chela" [ penwidth = 5 fontsize = 28 fontcolor = "black" label = "Rank ATP / Odds" ];
         label="Second modèle avec 4 edge features : accuracy à 57%"
     }
     ''')
