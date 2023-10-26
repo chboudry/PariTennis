@@ -256,18 +256,22 @@ def run():
 
         ############## Affichage des graphes
 
+        fig3 = df.Winner.value_counts().nlargest(20).plot(kind='bar',title="Nombre de parties gagnées par joueurs").figure
+        fig4 = df.Loser.value_counts().nlargest(20).plot(kind='bar',title="Nombre de parties perdues par joueurs").figure
+        fig5 = df_players.nlargest(20,"ratio_win").plot(kind='bar', y="ratio_win", x='player',title="Ratio victoires par parties").figure
+
         def affichage(axe):
             if axe == 'Ratio de parties gagnées au nombre de matchs':
                 
                 with st.spinner("Loading..."):
                     tab1, tab2 = st.tabs(["Nombre de parties gagnées/perdues par joueurs","Ratio victoires par parties"])
                     with tab1:
-                        fig3 = df.Winner.value_counts().nlargest(20).plot(kind='bar',title="Nombre de parties gagnées par joueurs").figure
+
                         st.pyplot(fig3)
-                        fig4 = df.Loser.value_counts().nlargest(20).plot(kind='bar',title="Nombre de parties perdues par joueurs").figure
+                        
                         st.pyplot(fig4)
                     with tab2:
-                        fig5 = df_players.nlargest(20,"ratio_win").plot(kind='bar', y="ratio_win", x='player',title="Ratio victoires par parties").figure
+                        
                         st.pyplot(fig5)
 
                         # cote associée et rentabilité
@@ -311,29 +315,29 @@ def run():
 
             elif axe == 'Analyse des victoires par tournoi':
                 with st.spinner("Loading..."):
-                    tab1, tab2 = st.tabs(["Répartition par type de tournoi","Nombre de victoires par tournoi"])
-                    with tab1:
-                        fig11=plt.figure(figsize=((8,6)))
-                        plt.pie(df['Series'].value_counts(),labels=df['Series'].value_counts().index, autopct="%.1f%%") 
-                        st.pyplot(fig11)
+                    #tab1, tab2 = st.tabs(["Répartition par type de tournoi","Nombre de victoires par tournoi"])
+                    #with tab1:
+                    #    fig11=plt.figure(figsize=((8,6)))
+                    #    plt.pie(df['Series'].value_counts(),labels=df['Series'].value_counts().index, autopct="%.1f%%") 
+                    #    st.pyplot(fig11)
 
-                    with tab2:             
-                        fig12 = plt.figure(figsize=(14,8))
-                        plt.subplot(121)
-                        data=df[df.Winner.isin(df.Winner.value_counts().nlargest(10).index.values)]\
-                        [df.Tournament.isin(['Australian Open','Wimbledon','US Open','French Open','Masters Cup'])]
-                        sns.countplot(x='Winner',hue='Tournament',data=data)
-                        plt.xticks(rotation=80)
-                        plt.ylabel('Nombre de Victoires')
-                        plt.title('Nombre de victoires du top 10 sur les tournois majeurs')
+                    #with tab2:             
+                    fig12 = plt.figure(figsize=(14,8))
+                    plt.subplot(121)
+                    data=df[df.Winner.isin(df.Winner.value_counts().nlargest(10).index.values)]\
+                    [df.Tournament.isin(['Australian Open','Wimbledon','US Open','French Open','Masters Cup'])]
+                    sns.countplot(x='Winner',hue='Tournament',data=data)
+                    plt.xticks(rotation=80)
+                    plt.ylabel('Nombre de Victoires')
+                    plt.title('Nombre de victoires du top 10 sur les tournois majeurs')
 
-                        plt.subplot(122)
-                        data=pd.concat([df.Winner,df.Tournament],axis=1).groupby('Winner').value_counts().nlargest(20)
-                        data.plot(kind='bar',color='orange',edgecolor='red')
-                        plt.title('Les plus grandes victoires des 20 meilleurs joueurs par tournoi')
-                        plt.xlabel('')
-                        plt.ylabel('Nombre de tournoi')
-                        st.pyplot(fig12)
+                    plt.subplot(122)
+                    data=pd.concat([df.Winner,df.Tournament],axis=1).groupby('Winner').value_counts().nlargest(20)
+                    data.plot(kind='bar',color='orange',edgecolor='red')
+                    plt.title('Les plus grandes victoires des 20 meilleurs joueurs par tournoi')
+                    plt.xlabel('')
+                    plt.ylabel('Nombre de tournoi')
+                    st.pyplot(fig12)
                         
             elif axe == 'Différence de rang ATP entre les joueurs':
                 with st.spinner("Loading..."): 
